@@ -2,20 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:meal_app/models/catetory.dart';
 
 class CategoryGridItem extends StatelessWidget {
-  const CategoryGridItem({super.key, required this.category});
+  const CategoryGridItem(
+      {super.key, required this.category, required this.onSelectCategory});
 
   final Category category;
+  final void Function() onSelectCategory;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        // Navigate to the meals screen with the selected category
-        Navigator.of(context).pushNamed('/meals', arguments: {
-          'id': category.id,
-          'title': category.title,
-        });
-      },
+      onTap: onSelectCategory,
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(16),
       child: Container(

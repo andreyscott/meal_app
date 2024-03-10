@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/models/meal.dart';
 import 'package:meal_app/screens/categories.dart';
+import 'package:meal_app/screens/filters.dart';
 import 'package:meal_app/screens/meals.dart';
 import 'package:meal_app/widgets/main_drawer.dart';
 
@@ -24,6 +25,12 @@ class _TabsScreenState extends State<TabsScreen> {
         .showSnackBar(SnackBar(content: Text(message)));
   }
 
+  void _showInfoMessage2(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
   void _toggleMealFavoriteStatus(Meal meal) {
     final isExisting = _favoriteMeals.contains(meal);
 
@@ -35,11 +42,10 @@ class _TabsScreenState extends State<TabsScreen> {
       });
       _showInfoMessage("Meal is no longer your Favs");
     } else {
-      // _favoriteMeals.add(meal);
-
       setState(() {
         _favoriteMeals.add(meal);
       });
+      _showInfoMessage("Meal has been added");
     }
   }
 
@@ -50,9 +56,13 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _setScreen(String identifier) {
+    Navigator.of(context).pop();
+
     if (identifier == 'filters') {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (ctx) => const FilterScreen()));
     } else {
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
     }
   }
 

@@ -8,6 +8,7 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      width: 270,
       child: Column(
         children: [
           DrawerHeader(

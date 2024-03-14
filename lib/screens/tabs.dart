@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meal_app/data/dummy_data.dart';
 import 'package:meal_app/models/meal.dart';
+import 'package:meal_app/provider/favorites_pro.dart';
 import 'package:meal_app/screens/categories.dart';
 import 'package:meal_app/screens/filters.dart';
 import 'package:meal_app/screens/home.dart';
@@ -28,7 +29,7 @@ class TabsScreen extends ConsumerStatefulWidget {
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedpageIndex = 0;
 
-  final List<Meal> _favoriteMeals = [];
+  // final List<Meal> _favoriteMeals = [];
   Map<Filter, bool> _selectedFilters = kInitialFilter;
 
   void _showInfoMessage(String message) {
@@ -42,24 +43,6 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   //   ScaffoldMessenger.of(context)
   //       .showSnackBar(SnackBar(content: Text(message)));
   // }
-
-  void _toggleMealFavoriteStatus(Meal meal) {
-    final isExisting = _favoriteMeals.contains(meal);
-
-    if (isExisting) {
-      // _favoriteMeals.remove(meal);
-
-      setState(() {
-        _favoriteMeals.remove(meal);
-      });
-      _showInfoMessage("Meal is no longer your Favs");
-    } else {
-      setState(() {
-        _favoriteMeals.add(meal);
-      });
-      _showInfoMessage("Meal has been added");
-    }
-  }
 
   void _selectPage(int index) {
     setState(() {
@@ -103,15 +86,15 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     }).toList();
 
     Widget activePage = CategoriesScreen(
-      onToggleFavorite: _toggleMealFavoriteStatus,
       availableMeals: availableMeals,
     );
     var activePageTitle = 'Categories';
 
     if (_selectedpageIndex == 1) {
+      // print(002 + 1);
+      final favoriteMeals = ref.watch(favoriteMealsProvider);
       activePage = MealsScreen(
-        meals: _favoriteMeals,
-        onToggleFavorite: _toggleMealFavoriteStatus,
+        meals: favoriteMeals,
       );
       activePageTitle = "Favourites";
     }
